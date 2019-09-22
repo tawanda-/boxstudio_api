@@ -24,7 +24,14 @@
     }
 
     function process_get_request($uri){
+
+        require(__DIR__."/dao/staffdao.php");
+
+        $staffdao = new StaffDAO();
+
+        $staffdao->get_all_staff();
         
+        /*
         switch($uri){
             case "schedule":
                 require(__DIR__."/views/shop.php");
@@ -46,6 +53,7 @@
             default:
                 break;
         }
+        */
     }
 
     function process_post_request($uri){

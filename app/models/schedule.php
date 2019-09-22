@@ -53,25 +53,5 @@
             $activity->get_activity($a_activity);
             $this->activity = $activity;
         }
-        
-        function get_venue(){
-            return $this->venue;
-        }
-        
-        function get_start_time(){
-            return $this->start_time;
-        }
-        
-        function get_end_time(){
-            return $this->end_time;
-        }
-        
-        function get_instructor(){
-            return $this->instructor;
-        }
-        
-        function get_activity(){
-            return $this->activity;
-        }
     }
 ?>
