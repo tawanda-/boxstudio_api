@@ -1,0 +1,18 @@
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: php:7.1.29
+
+pipelines:
+  branches:
+    master:
+      - step:
+          script:
+            - apt-get update && apt-get install -y unzip git git-core git-ftp libc-client-dev libkrb5-dev && rm -r /var/lib/apt/lists/*
+            - git config git-ftp.url ftp.esikolweni.co.za/public_html/boxstudio
+            - git config git-ftp.user esikogxy
+            - git config git-ftp.password ArjcgBG1-9gw
+            #- git ftp push
+            - git ftp init
