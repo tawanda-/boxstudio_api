@@ -25,13 +25,6 @@
 
     function process_get_request($uri){
 
-        require(__DIR__."/dao/staffdao.php");
-
-        $staffdao = new StaffDAO();
-
-        $staffdao->get_all_staff();
-        
-        /*
         switch($uri){
             case "schedule":
                 require(__DIR__."/views/shop.php");
@@ -45,6 +38,11 @@
             case "login":
                 require(__DIR__."/views/login.php");
                 break;
+            case "staff":
+                require(__DIR__."/dao/staffdao.php");
+                $staffdao = new StaffDAO();
+                $staffdao->get_all_staff();    
+                break;
             case "":
             case "app":
             case "home":
@@ -53,7 +51,6 @@
             default:
                 break;
         }
-        */
     }
 
     function process_post_request($uri){
