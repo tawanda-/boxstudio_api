@@ -3,7 +3,8 @@
     ini_set('display_errors', 1);
     error_reporting(-1);
 
-    $request_uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    $x = explode('?', trim($_SERVER['REQUEST_URI'], '/'));
+    $request_uri = explode('/', $x[0]);
 
     switch($_SERVER['REQUEST_METHOD']){
         
@@ -27,7 +28,23 @@
 
         switch($uri){
             case "schedule":
-                require(__DIR__."/views/shop.php");
+                $url_components = parse_url($_SERVER['REQUEST_URI']);
+
+                $scheduleid = null;
+                
+                if(isset($url_components['query'])){
+                    parse_str($url_components['query'], $params);
+                    $staff_id = $params['scheduleid'];
+                }
+                
+                require(__DIR__."/dao/scheduledao.php");
+                $scheduledao = new ScheduleDAO();
+
+                if(is_null($scheduleid)){
+                    $scheduledao->get_all_schedules();
+                }else{
+                    $scheduledao->get_schedule($scheduleid);
+                }
                 break;
             case "about":
                 require(__DIR__."/views/about.php");
@@ -39,9 +56,25 @@
                 require(__DIR__."/views/login.php");
                 break;
             case "staff":
+
+                $url_components = parse_url($_SERVER['REQUEST_URI']);
+
+                $staff_id = null;
+                
+                if(isset($url_components['query'])){
+                    parse_str($url_components['query'], $params);
+                    $staff_id = $params['staffid'];
+                }
+                
                 require(__DIR__."/dao/staffdao.php");
                 $staffdao = new StaffDAO();
-                $staffdao->get_all_staff();    
+
+                if(is_null($staff_id)){
+                    $staffdao->get_all_staff();
+                }else{
+                    $staffdao->get_staff($staff_id);
+                }
+                
                 break;
             case "":
             case "app":
@@ -49,6 +82,10 @@
                 require(__DIR__."/views/home.php");
                 break;
             default:
+                header('HTTP/1.0 404 Not Found');
+                echo "<h1>Error 404 Not Found</h1>";
+                echo "The page that you have requested could not be found.";
+                exit();
                 break;
         }
     }

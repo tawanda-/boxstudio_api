@@ -4,6 +4,7 @@
     include(dirname(__DIR__)."/models/staff.php");
 
     class StaffDAO{
+        
         private $db_conn;
 
         public function __construct(){
@@ -27,20 +28,15 @@
 
                     $result = $stmt->fetchAll(PDO::FETCH_CLASS, 'Staff');
 
-                    echo json_encode($result->UserName);
-
-                    /*
-                    foreach($result as $user){
-                        echo json_encode($user);
-                    }
-                    */
+                    echo json_encode($result);
                 }
             }else{
                 $stmt = $this->db_conn->prepare("SELECT * FROM `staff` WHERE `staffID` = ?");
 
                 if ($stmt->execute(array($staffid))) {
-                    $row = $stmt->fetch();
-                    var_dump($row);
+                    $stmt->setFetchMode(PDO::FETCH_CLASS, 'Staff');
+                    $result = $stmt->fetch();
+                    echo json_encode($result);
                 }
             }
         }

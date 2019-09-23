@@ -5,15 +5,9 @@
 
     $request = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
 
-    switch ($request[0]) {
-        case '' :
+    if ($request[0] === '') {
             require __DIR__.'/indexhtml.php';
-            break;
-        case 'app' :
-            require __DIR__.'/app/router.php';
-            break;
-        default:
-            echo 'not found';
-            break;
+    }else{
+        require __DIR__.'/app/router.php';
     }
 ?>
