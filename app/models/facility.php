@@ -1,7 +1,7 @@
 <?php
-    require_once('db.php');
     
     class facility{
+        /*
         var $id;
         var $name;
         var $cost;
@@ -26,5 +26,6 @@
                 $this->max_capacity = $row["MaxCapacity"];
             }
         }
+        */
     }
 ?>

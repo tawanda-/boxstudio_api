@@ -1,10 +1,7 @@
 <?php
     
-    include 'activity.php';
-    include 'facility.php';
-    include 'staff.php';
-    
     class schedule{
+        /*
         var $id;
         var $venue;
         var $start_time;
@@ -53,5 +50,6 @@
             $activity->get_activity($a_activity);
             $this->activity = $activity;
         }
+        */
     }
 ?>

@@ -1,8 +1,7 @@
 <?php
     
-    require_once('db.php');
-    
     class Activity{
+        /*
         var $id;
         var $name;
         var $type;
@@ -25,5 +24,6 @@
                 $this->type = $row["actvityType"];
             }
         }
+        */
     }
 ?>

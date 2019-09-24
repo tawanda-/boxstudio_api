@@ -27,14 +27,16 @@
     function process_get_request($uri){
 
         switch($uri){
+
             case "schedule":
+
                 $url_components = parse_url($_SERVER['REQUEST_URI']);
 
                 $scheduleid = null;
                 
                 if(isset($url_components['query'])){
                     parse_str($url_components['query'], $params);
-                    $staff_id = $params['scheduleid'];
+                    $scheduleid = $params['scheduleid'];
                 }
                 
                 require(__DIR__."/dao/scheduledao.php");
@@ -46,15 +48,72 @@
                     $scheduledao->get_schedule($scheduleid);
                 }
                 break;
-            case "about":
-                require(__DIR__."/views/about.php");
+
+            case "member":
+                
+                $url_components = parse_url($_SERVER['REQUEST_URI']);
+
+                require(__DIR__."/dao/memberdao.php");
+                $memberdao = new MemberDAO();
+                
+                if(isset($url_components['query'])){
+                    parse_str($url_components['query'], $params);
+                    if(isset($params['memberid'])){
+                        $memberdao->get_member($params['memberid']);
+                    }else if(isset($params['membershipid'])){
+                        $memberdao->get_member_by_membershipid($params['membershipid']);
+                    }
+                }else{
+                    $memberdao->get_all_members();
+                }
+
                 break;
-            case "contact":
-                require(__DIR__."/views/contact.php");
+
+            case "membership":
+                
+                $url_components = parse_url($_SERVER['REQUEST_URI']);
+
+                require(__DIR__."/dao/membershipdao.php");
+                $membershipdao = new MembershipDAO();
+                
+                if(isset($url_components['query'])){
+                    parse_str($url_components['query'], $params);
+                    if(isset($params['membershipid'])){
+                        $membershipdao->get_membership($params['membershipid']);
+                    }else if(isset($params['memberid'])){
+                        $membershipdao->get_membership_by_memberid($params['memberid']);
+                    }
+                }else{
+                    $membershipdao->get_all_memberships();
+                }
+
                 break;
             case "login":
                 require(__DIR__."/views/login.php");
                 break;
+
+            case "facility":
+
+                $url_components = parse_url($_SERVER['REQUEST_URI']);
+
+                $facility_id = null;
+                
+                if(isset($url_components['query'])){
+                    parse_str($url_components['query'], $params);
+                    $facility_id = $params['facilityid'];
+                }
+                
+                require(__DIR__."/dao/facilitydao.php");
+                $facilitydao = new FacilityDAO();
+
+                if(is_null($facility_id)){
+                    $facilitydao->get_all_facilities();
+                }else{
+                    $facilitydao->get_facility($facility_id);
+                }
+                
+                break;
+
             case "staff":
 
                 $url_components = parse_url($_SERVER['REQUEST_URI']);
@@ -76,6 +135,7 @@
                 }
                 
                 break;
+
             case "":
             case "app":
             case "home":
