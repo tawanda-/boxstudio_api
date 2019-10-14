@@ -43,9 +43,9 @@
                 $scheduledao = new ScheduleDAO();
 
                 if(is_null($scheduleid)){
-                    $scheduledao->get_all_schedules();
+                    echo json_encode( $scheduledao->get_all_schedules() );
                 }else{
-                    $scheduledao->get_schedule($scheduleid);
+                    echo json_encode( $scheduledao->get_schedule($scheduleid) );
                 }
                 break;
 
@@ -136,6 +136,11 @@
                 
                 break;
 
+            case "register":
+                
+                
+                
+                break;
             case "":
             case "app":
             case "home":
@@ -144,10 +149,11 @@
             default:
                 header('HTTP/1.0 404 Not Found');
                 echo "<h1>Error 404 Not Found</h1>";
-                echo "The page that you have requested could not be found.";
-                exit();
+                exit;
                 break;
         }
+
+        exit;
     }
 
     function process_post_request($uri){
@@ -159,8 +165,30 @@
             case "about":
                 include("/views/about.php");
             break;
-            case "contact":
-                include("/views/about.php");
+            case "booking":
+                include(__DIR__)."/dao/bookingdao.php";
+                $booking = new BookingDao();
+                $a = $booking->bookingRequest($_POST);
+                if($a === true){
+                    $b = $booking->sendEmail($_POST);
+                }
+                if($a === true && $b === true){
+                    $c = "done";
+                    echo json_encode($c);
+                }
+            break;
+            case "login":
+                include(__DIR__)."/dao/authdao.php";
+                $auth = new AuthDao();
+                $result = $auth->login($_POST['memberId'], $_POST['password']); 
+                echo json_encode($result);
+            break;
+            case "register":
+                include(__DIR__)."/dao/authdao.php";
+                $auth = new AuthDao();
+                $result = $auth->register($_POST);
+                echo json_encode($result);
+            break;
             break;
             case "":
             case "home":
@@ -169,5 +197,6 @@
                 header('HTTP/1.0 404 Not Found');
             break;
         }
+        exit;
     }
 ?>
