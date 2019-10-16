@@ -8,6 +8,6 @@
     if ($request[0] === '') {
             require __DIR__.'/indexhtml.php';
     }else{
-        require __DIR__.'/app/router.php';
+        require __DIR__.'/app/controller.php';
     }
 ?>
